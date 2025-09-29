@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - Jean Desjardins</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #1f2937;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; }
+        .logo { font-size: 1.5rem; font-weight: bold; color: #2563eb; }
+        .nav-links { display: flex; list-style: none; gap: 2rem; }
+        .nav-links a { text-decoration: none; color: #1f2937; font-weight: 500; transition: color 0.3s; cursor: pointer; }
+        .nav-links a:hover, .nav-links a.active { color: #2563eb; }
+        
+        /* Menu hamburger pour mobile */
+        .hamburger { display: none; flex-direction: column; cursor: pointer; }
+        .hamburger span { width: 25px; height: 3px; background: #2563eb; margin: 3px 0; transition: 0.3s; }
+        
+        main { margin-top: 80px; padding: 2rem 0; }
+        
+        .section {
+            display: none; background: white; border-radius: 15px; padding: 2rem; margin: 2rem 0;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            opacity: 0; transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .section.active { 
+            display: block; 
+            opacity: 1; 
+            transform: translateY(0);
+        }
+        .section h1 { color: #2563eb; margin-bottom: 2rem; font-size: 2.5rem; text-align: center; }
+        
+        .hero {
+            text-align: center; padding: 4rem 0; background: linear-gradient(135deg, #2563eb, #1e40af);
+            color: white; border-radius: 15px; margin-bottom: 3rem;
+        }
+        .hero h1 { font-size: 3rem; margin-bottom: 1rem; color: white; }
+        .hero p { font-size: 1.2rem; opacity: 0.9; }
+        
+        .cv-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 2rem; margin-top: 2rem; }
+        .cv-left { background: #f8fafc; padding: 2rem; border-radius: 10px; }
+        .profile-img {
+            width: 150px; height: 150px; border-radius: 50%;
+            background: linear-gradient(135deg, #2563eb, #1e40af);
+            margin: 0 auto 2rem; border: 4px solid white;
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 4rem;
+            overflow: hidden;
+        }
+        .profile-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .skill-bar { margin-bottom: 1rem; }
+        .skill-name { font-weight: 500; margin-bottom: 0.5rem; }
+        .progress { background: #e5e7eb; border-radius: 10px; height: 8px; }
+        .progress-fill { background: #2563eb; height: 100%; border-radius: 10px; transition: width 1s ease; }
+        
+        .experience-item, .education-item {
+            margin-bottom: 2rem; padding: 1.5rem; background: #f8fafc;
+            border-radius: 10px; border-left: 4px solid #2563eb;
+            transition: transform 0.3s ease;
+        }
+        .experience-item:hover, .education-item:hover {
+            transform: translateY(-5px);
+        }
+        .experience-item h3, .education-item h3 { color: #2563eb; margin-bottom: 0.5rem; }
+        .date { color: #6b7280; font-size: 0.9rem; margin-bottom: 0.5rem; }
+        
+        .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem; margin-top: 2rem; }
+        .project-card { 
+            background: white; border-radius: 15px; overflow: hidden; 
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .project-card:hover {
+            transform: translateY(-5px);
+        }
+        .project-header { background: linear-gradient(135deg, #2563eb, #3b82f6); color: white; padding: 2rem; text-align: center; }
+        .project-body { padding: 2rem; }
+        .tech-tag { background: #2563eb; color: white; padding: 0.3rem 0.8rem; border-radius: 15px; font-size: 0.8rem; margin-right: 0.5rem; }
+        
+        .btn { 
+            background: #2563eb; color: white; border: none; padding: 0.7rem 1.5rem; 
+            border-radius: 5px; cursor: pointer; font-size: 0.9rem; 
+            transition: background 0.3s ease, transform 0.2s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn:hover { background: #1e40af; transform: scale(1.05); }
+        
+        .veille-btn, .stage-btn { 
+            padding: 1rem 2rem; border-radius: 25px; cursor: pointer; font-size: 1rem; 
+            font-weight: 500; border: 2px solid #2563eb; background: white; color: #2563eb; margin: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        .veille-btn.active, .veille-btn:hover, .stage-btn.active, .stage-btn:hover { background: #2563eb; color: white; }
+        
+        .month-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 2rem 0; }
+        .month-card { 
+            padding: 1.5rem; border-radius: 10px; cursor: pointer; text-align: center; 
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .month-card:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        
+        /* Modal amélioré */
+        .modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8); z-index: 10000;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .modal.active {
+            opacity: 1; visibility: visible;
+        }
+        .modal-content {
+            background: white; padding: 2rem; border-radius: 15px; 
+            max-width: 90%; max-height: 90%; overflow-y: auto; 
+            min-width: 600px; transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+        .modal.active .modal-content {
+            transform: scale(1);
+        }
+        
+        /* Footer */
+        footer {
+            background: rgba(255, 255, 255, 0.9);
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+            border-radius: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            .hamburger { display: flex; }
+            .nav-links { 
+                display: none; 
+                position: absolute; 
+                top: 100%; left: 0; 
+                width: 100%; 
+                background: white; 
+                flex-direction: column; 
+                padding: 1rem 0;
+                box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+            }
+            .nav-links.active { display: flex; }
+            .nav-links li { text-align: center; padding: 0.5rem 0; }
+            .cv-grid { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 2rem; }
+            .modal-content { min-width: 90%; padding: 1rem; }
+            .month-grid { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+        }
+        
+        /* Animation pour les barres de compétences */
+        @keyframes fillBar {
+            from { width: 0%; }
+            to { width: var(--target-width); }
+        }
+        
+        /* Animation pour les cartes de projet */
+        .project-card {
+            animation: fadeInUp 0.6s ease forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Styles pour la section Stage */
+        .stage-section {
+            background: #f8fafc;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+        
+        .stage-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .stage-info-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #2563eb;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .stage-info-card h4 {
+            color: #2563eb;
+            margin-bottom: 1rem;
+        }
+        
+        .competence-badge {
+            display: inline-block;
+            background: #dbeafe;
+            color: #1e40af;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin: 0.2rem;
+        }
+        
+        .proof-link {
+            display: inline-block;
+            background: #10b981;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-top: 1rem;
+            transition: background 0.3s ease;
+        }
+        
+        .proof-link:hover {
+            background: #059669;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">Jean Desjardins</div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-links" id="navLinks">
+                <li><a onclick="showSection('accueil', event)" class="active">Accueil</a></li>
+                <li><a onclick="showSection('cv', event)">CV</a></li>
+                <li><a onclick="showSection('stage', event)">Stage</a></li>
+                <li><a onclick="showSection('veille', event)">Veille</a></li>
+                <li><a onclick="showSection('realisations', event)">Réalisations</a></li>
+                <li><a onclick="showSection('rectorat', event)">Rectorat</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <!-- Accueil -->
+        <section id="accueil" class="section active">
+            <div class="hero">
+                <h1>Jean Desjardins</h1>
+                <p>Étudiant en BTS SIO - Services Informatiques aux Organisations</p>
+                <p>Option SISR - Solutions d'Infrastructure, Systèmes et Réseaux</p>
+            </div>
+            <div style="text-align: center; padding: 2rem;">
+                <h2>Bienvenue sur mon portfolio</h2>
+                <p style="font-size: 1.1rem; margin-top: 1rem; color: #6b7280;">
+                    Découvrez mon parcours, mes compétences et mes réalisations dans le domaine de l'informatique.
+                </p>
+                <div style="margin-top: 2rem;">
+                    <button class="btn" onclick="showSection('cv', event)">Voir mon CV</button>
+                    <button class="btn" onclick="showSection('stage', event)" style="background: #10b981; margin-left: 1rem;">Mes stages</button>
+                    <button class="btn" onclick="showSection('realisations', event)" style="background: #f59e0b; margin-left: 1rem;">Mes réalisations</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- CV -->
+        <section id="cv" class="section">
+            <h1>Curriculum Vitae</h1>
+            <div class="cv-grid">
+                <div class="cv-left">
+                    <div class="profile-img">
+                        <!-- Remplace par ton image -->
+                        <!-- <img src="assets/images/photo-profil.jpg" alt="Jean Desjardins"> -->
+                        👤
+                    </div>
+                    
+                    <h3>Contact</h3>
+                    <ul style="list-style: none; margin-bottom: 2rem;">
+                        <li style="margin-bottom: 0.5rem;">📧 jean.desjardins@campus-la-chataigneraie.org</li>
+                        <li style="margin-bottom: 0.5rem;">📱 06 09 54 31 47</li>
+                        <li style="margin-bottom: 0.5rem;">📍 Val d'Orger, 27380</li>
+                        <li style="margin-bottom: 0.5rem;">🌐 <a href="https://linkedin.com/in/jean-desjardins-4bba2a341" target="_blank" style="color: #2563eb; text-decoration: none;">LinkedIn</a></li>
+                        <li style="margin-bottom: 0.5rem;">🚗 Permis B</li>
+                    </ul>
+
+                    <h3>Compétences Techniques</h3>
+                    <div class="skill-bar">
+                        <div class="skill-name">Windows Server</div>
+                        <div class="progress"><div class="progress-fill" style="--target-width: 85%;"></div></div>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-name">Active Directory</div>
+                        <div class="progress"><div class="progress-fill" style="--target-width: 80%;"></div></div>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-name">Linux (Ubuntu/Debian)</div>
+                        <div class="progress"><div class="progress-fill" style="--target-width: 75%;"></div></div>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-name">Virtualisation VMware/VirtualBox</div>
+                        <div class="progress"><div class="progress-fill" style="--target-width: 85%;"></div></div>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-name">Réseaux / VLANs</div>
+                        <div class="progress"><div class="progress-fill" style="--target-width: 80%;"></div></div>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-name">PowerShell</div>
+                        <div class="progress"><div class="progress-fill" style="--target-width: 70%;"></div></div>
+                    </div>
+
+                    <h3>Logiciels Maîtrisés</h3>
+                    <ul style="list-style: none; margin-top: 1rem;">
+                        <li>• VMware & VirtualBox</li>
+                        <li>• Cisco Packet Tracer</li>
+                        <li>• PuTTY & WinSCP</li>
+                        <li>• Wireshark</li>
+                        <li>• Advanced IP Scanner</li>
+                        <li>• Tftpd64</li>
+                    </ul>
+
+                    <h3>Langues</h3>
+                    <div class="skill-bar">
+                        <div class="skill-name">Français</div>
+                        <div class="progress"><div class="progress-fill" style="--target-width: 100%;"></div></div>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-name">Anglais (B2)</div>
+                        <div class="progress"><div class="progress-fill" style="--target-width: 75%;"></div></div>
+                    </div>
+
+                    <h3>Centres d'Intérêt</h3>
+                    <ul style="list-style: none; margin-top: 1rem;">
+                        <li>🖥️ Informatique</li>
+                        <li>⚽ Sports</li>
+                        <li>🎮 Jeux vidéos</li>
+                    </ul>
+
+                    <h3>Certifications</h3>
+                    <div style="margin-top: 1rem;">
+                        <div style="margin-bottom: 1rem; padding: 1rem; background: white; border-radius: 8px; border: 1px solid #2563eb;">
+                            <h4 style="color: #2563eb; margin-bottom: 0.5rem;">📋 RGPD - CNIL</h4>
+                            <p style="font-size: 0.9rem; margin-bottom: 0.5rem;">Certification complète en protection des données</p>
+                            <button class="btn" onclick="showCertification('RGPD')">Voir les résultats</button>
+                        </div>
+                        
+                        <div style="margin-bottom: 1rem; padding: 1rem; background: #f8fafc; border-radius: 8px; border: 1px solid #6b7280; opacity: 0.6;">
+                            <h4 style="color: #6b7280; margin-bottom: 0.5rem;">🔒 ANSSI</h4>
+                            <p style="font-size: 0.9rem; color: #6b7280; margin-bottom: 0.5rem;">Certification cybersécurité</p>
+                            <span style="background: #6b7280; color: white; padding: 0.5rem 1rem; border-radius: 5px; font-size: 0.8rem;">Soon</span>
+                        </div>
+
+                        <div style="margin-bottom: 1rem; padding: 1rem; background: white; border-radius: 8px; border: 1px solid #1f2937;">
+                            <h4 style="color: #1f2937; margin-bottom: 0.5rem;">🌐 Formations Cisco</h4>
+                            <p style="font-size: 0.9rem; margin-bottom: 0.5rem;">Introduction à la Cybersécurité</p>
+                            <button class="btn" onclick="showCertification('Cisco')">Voir les formations</button>
+                        </div>
+                        
+                        <div style="padding: 1rem; background: white; border-radius: 8px; border: 1px solid #3b82f6;">
+                            <h4 style="color: #3b82f6; margin-bottom: 0.5rem;">🎯 PIX</h4>
+                            <p style="font-size: 0.9rem; margin-bottom: 0.5rem;">Certification compétences numériques</p>
+                            <button class="btn" onclick="showCertification('PIX')">Voir le score</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cv-right">
+                    <h2>Profil Professionnel</h2>
+                    <p style="margin-bottom: 1rem;">
+                        Déterminé et autonome, je suis étudiant en BTS SIO option SISR avec une forte passion 
+                        pour l'administration réseau et l'infrastructure informatique.
+                    </p>
+                    <div style="background: linear-gradient(135deg, #059669, #10b981); color: white; padding: 1.5rem; border-radius: 10px; margin-bottom: 2rem;">
+                        <h3 style="margin-bottom: 1rem; color: white;">🎯 Recherche de Stage</h3>
+                        <p style="margin-bottom: 0.5rem;"><strong>Objectif :</strong> Approfondir mes compétences en administration réseau et infrastructure</p>
+                        <p style="margin-bottom: 0.5rem;"><strong>Période :</strong> Du 05 janvier 2026 au 16 février 2026</p>
+                        <p><strong>Durée :</strong> 6 semaines</p>
+                    </div>
+
+                    <h2>Formation</h2>
+                    <div class="education-item">
+                        <h3>BTS Services Informatiques aux Organisations (SIO)</h3>
+                        <div class="date">En cours - 2024-2026</div>
+                        <p>Option SISR - Solutions d'Infrastructure, Systèmes et Réseaux</p>
+                        <p>Campus La Chataigneraie, Le Mesnil-Esnard</p>
+                    </div>
+                    <div class="education-item">
+                        <h3>Baccalauréat Professionnel Systèmes Numériques (RISC)</h3>
+                        <div class="date">2024</div>
+                        <p>Mention Assez Bien</p>
+                        <p>Campus La Chataigneraie, Le Mesnil-Esnard</p>
+                    </div>
+
+                    <h2>Expérience Professionnelle</h2>
+                    <div class="experience-item">
+                        <h3>Stage - Administrateur Réseaux</h3>
+                        <div class="date">6 semaines</div>
+                        <p><strong>MySAV France</strong></p>
+                        <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                            <li>Déploiement et configuration d'un Active Directory sous Windows Server 2025</li>
+                            <li>Automatisation d'installations logicielles via GPO et scripts PowerShell</li>
+                            <li>Mise en place d'un serveur d'impression et déploiement automatisé des imprimantes</li>
+                        </ul>
+                    </div>
+                    <div class="experience-item">
+                        <h3>Stage - Technicien Support Informatique</h3>
+                        <div class="date">8 semaines</div>
+                        <p><strong>CHU Rouen</strong></p>
+                        <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                            <li>Cartographie et optimisation des infrastructures réseau (switchs, baies...)</li>
+                            <li>Programmation et installation de douchettes informatiques</li>
+                        </ul>
+                    </div>
+                    <div class="experience-item">
+                        <h3>Stage - Vendeur / Installateur en Électroménager</h3>
+                        <div class="date">4 semaines</div>
+                        <p><strong>MDA Electroménager</strong></p>
+                        <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                            <li>Gestion des stocks et réassort des rayons</li>
+                            <li>Conseil et vente d'appareils électroménagers aux clients</li>
+                            <li>Livraison et installation des appareils électroménagers</li>
+                        </ul>
+                    </div>
+                    <div class="experience-item">
+                        <h3>Stage - Technicien de Maintenance Informatique</h3>
+                        <div class="date">4 semaines</div>
+                        <p><strong>Arrowbase Informatique</strong></p>
+                        <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                            <li>Diagnostic et dépannage réseau sur postes clients</li>
+                            <li>Maintenance, réparation et vente de matériel informatique</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stage -->
+        <section id="stage" class="section">
+            <h1>Stages</h1>
+            <div style="text-align: center; margin-bottom: 3rem;">
+                <button class="stage-btn active" onclick="showStage('stage1')">Stage 1ère année</button>
+                <button class="stage-btn" onclick="showStage('stage2')">Stage 2ème année</button>
+            </div>
+
+            <div id="stage1" class="stage-content">
+                <div style="background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 2rem; border-radius: 15px; margin-bottom: 2rem; text-align: center;">
+                    <h2>Stage de 1ère année - MySAV France</h2>
+                    <p>Du 26 mai 2025 au 27 juin 2025 (5 semaines)</p>
+                </div>
+                
+                <div class="stage-section">
+                    <h3 style="color: #10b981; margin-bottom: 1rem;">Présentation du stage</h3>
+                    <p>Mon stage de 5 semaines s'est déroulé au sein de l'entreprise MySAV France, une SAS créée en 1992 au Havre spécialisée dans la réparation de matériel électrique (trottinettes électriques, casques audio, enceintes, appareils photos). J'ai été affecté au service informatique géré par la société SOFT&COM.</p>
+                    
+                    <div class="stage-info-grid">
+                        <div class="stage-info-card">
+                            <h4>🏢 Entreprise</h4>
+                            <p><strong>MySAV France</strong> - SAS créée en 1992</p>
+                            <p><strong>Secteur :</strong> Réparation de matériel électrique</p>
+                            <p><strong>Clients :</strong> Xiaomi, JBL, SEGWAY, etc.</p>
+                        </div>
+                        
+                        <div class="stage-info-card">
+                            <h4>🎯 Projet principal</h4>
+                            <p>Déploiement et configuration d'un Active Directory complet sous Windows Server 2025 pour améliorer la gestion de l'infrastructure informatique.</p>
+                        </div>
+                        
+                        <div class="stage-info-card">
+                            <h4>📋 Missions</h4>
+                            <ul>
+                                <li>Préparation et déploiement de machines</li>
+                                <li>Configuration de l'Active Directory</li>
+                                <li>Automatisation via GPO et PowerShell</li>
+                                <li>Mise en place d'un serveur d'impression</li>
+                                <li>Installation de caméras de surveillance</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stage-section">
+                    <h3 style="color: #10b981; margin-bottom: 1rem;">Compétences du bloc 1</h3>
+                    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem;">
+                        <span class="competence-badge">Gestion du patrimoine informatique</span>
+                        <span class="competence-badge">Administration système</span>
+                        <span class="competence-badge">Gestion des utilisateurs</span>
+                        <span class="competence-badge">Déploiement de solutions</span>
+                        <span class="competence-badge">Automatisation des tâches</span>
+                        <span class="competence-badge">Sécurisation des accès</span>
+                    </div>
+                </div>
+                
+                <div class="stage-section">
+                    <h3 style="color: #10b981; margin-bottom: 1rem;">Environnement technologique</h3>
+                    <div class="stage-info-grid">
+                        <div class="stage-info-card">
+                            <h4>🖥️ Systèmes</h4>
+                            <ul>
+                                <li>Windows Server 2025</li>
+                                <li>Windows 11 (clients)</li>
+                                <li>Machines virtuelles</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="stage-info-card">
+                            <h4>🔧 Outils</h4>
+                            <ul>
+                                <li>Active Directory Domain Services</li>
+                                <li>GPO (Group Policy Objects)</li>
+                                <li>PowerShell</li>
+                                <li>Notion (base de connaissances)</li>
+                                <li>Excel (gestion des logiciels)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="stage-info-card">
+                            <h4>🌐 Infrastructure</h4>
+                            <ul>
+                                <li>Serveurs physiques et virtuels</li>
+                                <li>Switchs réseau</li>
+                                <li>Serveurs NAS</li>
+                                <li>Caméras de surveillance</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stage-section">
+                    <h3 style="color: #10b981; margin-bottom: 1rem;">Accès aux preuves intégrées</h3>
+                    <p>Voici les documents et preuves liés à mon stage de première année :</p>
+                    
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1rem;">
+                        <a href="https://drive.google.com/file/d/1YQIMDZSOxfil4ZrtKLOK5934sYGZp7ZY/view" target="_blank" class="proof-link">
+                            📄 Attestation de stage
+                        </a>
+                        <a href="https://drive.google.com/drive/folders/1S9dNIVvd9eoOHxg4HTaDKSv-E-Z5BF46?usp=sharing" target="_blank" class="proof-link">
+                            📁 Dossier complet
+                        </a>
+                        <a href="https://docs.google.com/spreadsheets/d/1sRCLw9py1xIsab8HUzOjqfMfdpZZKCwK/edit?gid=1286842107#gid=1286842107" target="_blank" class="proof-link">
+                            📊 Tableau de synthèse
+                        </a>
+                    </div>
+                </div>
+                
+                <div style="background: #dbeafe; padding: 1.5rem; border-radius: 10px; margin-top: 2rem;">
+                    <h4 style="color: #1e40af; margin-bottom: 1rem;">📝 Note importante</h4>
+                    <p>Ce résumé ne constitue pas une recopie du rapport de stage. Il met en évidence le contexte (entreprise, sujet, besoin, existants) et l'environnement technologique du projet.</p>
+                </div>
+            </div>
+
+            <div id="stage2" class="stage-content" style="display: none;">
+                <div style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white; padding: 2rem; border-radius: 15px; margin-bottom: 2rem; text-align: center;">
+                    <h2>Stage de 2ème année</h2>
+                    <p>À venir - Du 05 janvier 2026 au 16 février 2026 (6 semaines)</p>
+                </div>
+                
+                <div class="stage-section">
+                    <h3 style="color: #f59e0b; margin-bottom: 1rem;">Informations</h3>
+                    <p>Le stage de deuxième année n'a pas encore été effectué. Il est prévu pour la période du 05 janvier 2026 au 16 février 2026 et durera 6 semaines.</p>
+                    
+                    <div style="background: #fef3c7; padding: 1.5rem; border-radius: 8px; text-align: center; margin-top: 2rem;">
+                        <p style="color: #92400e; margin: 0;">
+                            <strong>📅 En attente du stage</strong><br>
+                            Cette section sera mise à jour après la réalisation du stage de deuxième année.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Veille -->
+        <section id="veille" class="section">
+            <h1>Veille Technologique</h1>
+            <div style="text-align: center; margin-bottom: 3rem;">
+                <button class="veille-btn active" onclick="showVeille('cybernews')">🌐 Cyber News</button>
+                <button class="veille-btn" onclick="showVeille('cybermenaces')">⚠️ Cybermenaces</button>
+            </div>
+
+            <div id="cybernews" class="veille-content">
+                <div style="background: linear-gradient(135deg, #2563eb, #3b82f6); color: white; padding: 2rem; border-radius: 15px; margin-bottom: 2rem; text-align: center;">
+                    <h2>🌐 Cyber News - Actualités Générales</h2>
+                    <p>Septembre 2024 à Septembre 2025 (13 mois)</p>
+                </div>
+                <div class="month-grid" id="cybernews-months"></div>
+                <div style="background: #f8fafc; padding: 1.5rem; border-radius: 10px; margin-top: 2rem;">
+                    <h4 style="color: #2563eb;">📚 Sources : CNIL (Commission Nationale de l'Informatique et des Libertés)</h4>
+                    <p style="margin-top: 0.5rem; color: #2563eb; font-weight: 500;">🛠️ Outil de veille : Google Alert</p>
+                </div>
+            </div>
+
+            <div id="cybermenaces" class="veille-content" style="display: none;">
+                <div style="background: linear-gradient(135deg, #dc2626, #ef4444); color: white; padding: 2rem; border-radius: 15px; margin-bottom: 2rem; text-align: center;">
+                    <h2>⚠️ Cybermenaces & Cyberattaques</h2>
+                    <p>Mars 2025 à Septembre 2025 (7 mois)</p>
+                </div>
+                <div class="month-grid" id="cybermenaces-months"></div>
+                <div style="background: #f8fafc; padding: 1.5rem; border-radius: 10px; margin-top: 2rem;">
+                    <h4 style="color: #dc2626;">📚 Sources : ITSocial, Afrique IT News, Le Chô Touristique, LeMagIT, Economie Matin, ITR News, Mag Centre, Les Echos, Kosmos News, ZATAZ</h4>
+                    <p style="margin-top: 0.5rem; color: #dc2626; font-weight: 500;">🛠️ Outil de veille : Google Alert</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Réalisations -->
+        <section id="realisations" class="section">
+            <h1>Réalisations Professionnelles</h1>
+            
+            <!-- Stage MySAV France -->
+            <div class="project-card">
+                <div class="project-header">
+                    <h3>🏢 Stage MySAV France - Déploiement Active Directory</h3>
+                </div>
+                <div class="project-body">
+                    <p><strong>Durée :</strong> 5 semaines (26 mai 2025 - 27 juin 2025)</p>
+                    <p><strong>Contexte :</strong> Déploiement d'une infrastructure Active Directory complète.</p>
+                    
+                    <div style="margin-top: 1rem;">
+                        <span class="tech-tag">Windows Server 2025</span>
+                        <span class="tech-tag">Active Directory</span>
+                        <span class="tech-tag">GPO</span>
+                        <span class="tech-tag">PowerShell</span>
+                        <span class="tech-tag">NAS</span>
+                    </div>
+                    
+                    <button class="btn" style="margin-top: 1rem;" onclick="showProjectDetails('mysav')">Voir les détails complets</button>
+                </div>
+            </div>
+            
+            <!-- Infrastructure Cisco -->
+            <div class="project-card">
+                <div class="project-header">
+                    <h3>🌐 Infrastructure Réseau Cisco</h3>
+                </div>
+                <div class="project-body">
+                    <p>Configuration complète d'équipements réseau Cisco : VLAN, Trunk, VTP, LAG, STP.</p>
+                    <div style="margin-top: 1rem;">
+                        <span class="tech-tag">Cisco IOS</span>
+                        <span class="tech-tag">VLAN/Trunk</span>
+                        <span class="tech-tag">VTP</span>
+                        <span class="tech-tag">EtherChannel</span>
+                        <span class="tech-tag">Spanning-Tree</span>
+                    </div>
+                    <button class="btn" style="margin-top: 1rem;" onclick="showProjectDetails('cisco')">Voir les configurations</button>
+                </div>
+            </div>
+            
+            <!-- Automatisation PowerShell -->
+            <div class="project-card">
+                <div class="project-header">
+                    <h3>⚡ Automatisation PowerShell</h3>
+                </div>
+                <div class="project-body">
+                    <p>Développement de scripts d'automatisation pour l'administration système.</p>
+                    <div style="margin-top: 1rem;">
+                        <span class="tech-tag">PowerShell</span>
+                        <span class="tech-tag">Scripting</span>
+                        <span class="tech-tag">Automatisation</span>
+                        <span class="tech-tag">Administration</span>
+                    </div>
+                    <button class="btn" style="margin-top: 1rem;" onclick="showProjectDetails('powershell')">Voir les scripts</button>
+                </div>
+            </div>
+            
+            <!-- Cisco VTP/LAG/STP -->
+            <div class="project-card">
+                <div class="project-header">
+                    <h3>🔗 Cisco - VTP, LAG & STP Avancé</h3>
+                </div>
+                <div class="project-body">
+                    <p>Configuration avancée des protocoles VTP, EtherChannel et Spanning-Tree Protocol.</p>
+                    <div style="margin-top: 1rem;">
+                        <span class="tech-tag">VTP</span>
+                        <span class="tech-tag">LAG</span>
+                        <span class="tech-tag">STP</span>
+                        <span class="tech-tag">EtherChannel</span>
+                        <span class="tech-tag">Réseaux</span>
+                    </div>
+                    <button class="btn" style="margin-top: 1rem;" onclick="showProjectDetails('cisco-advanced')">Voir les détails</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Rectorat -->
+        <section id="rectorat" class="section">
+            <h1>Documents Rectorat</h1>
+            <div style="background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 3rem; border-radius: 15px; text-align: center; margin-bottom: 2rem;">
+                <h2>Académie de Normandie</h2>
+                <p>Documents officiels BTS SIO</p>
+            </div>
+            
+            <div style="background: #f8fafc; padding: 2rem; border-radius: 10px;">
+                <h3 style="color: #2563eb; text-align: center; margin-bottom: 2rem;">📋 Documentation par Épreuves</h3>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+                    <!-- Tableau de Synthèse E5 -->
+                    <div style="background: white; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #2563eb;">
+                        <h5 style="color: #2563eb;">📈 Tableau de Synthèse E5</h5>
+                        <p style="margin: 1rem 0; font-size: 0.9rem;">Document Excel récapitulatif</p>
+                        <a href="https://docs.google.com/spreadsheets/d/1sRCLw9py1xIsab8HUzOjqfMfdpZZKCwK/edit?gid=1286842107#gid=1286842107" target="_blank" class="btn">
+                            📥 Télécharger (.xlsx)
+                        </a>
+                    </div>
+                    
+                    <!-- Attestation Stage 1ère année -->
+                    <div style="background: white; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #10b981;">
+                        <h5 style="color: #10b981;">📜 Attestation Stage 1ère Année</h5>
+                        <p style="margin: 1rem 0; font-size: 0.9rem;"><strong>MySAV France</strong> - 5 semaines</p>
+                        <a href="https://drive.google.com/file/d/1YQIMDZSOxfil4ZrtKLOK5934sYGZp7ZY/view" target="_blank" class="btn">
+                            📄 Voir attestation
+                        </a>
+                    </div>
+                    
+                    <!-- Stage 2ème année -->
+                    <div style="background: white; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #f59e0b;">
+                        <h5 style="color: #f59e0b;">📜 Stage 2ème Année</h5>
+                        <p style="margin: 1rem 0; color: #6b7280;">En attente du stage</p>
+                        <div style="background: #fef3c7; padding: 1rem; border-radius: 5px; text-align: center;">
+                            <p style="color: #92400e;">Document à venir</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section Documents supplémentaires -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: #2563eb; text-align: center; margin-bottom: 2rem;">📁 Autres Documents</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                        <div style="background: white; padding: 1rem; border-radius: 8px; border: 1px solid #e5e7eb; text-align: center;">
+                            <h5 style="color: #6b7280; margin-bottom: 0.5rem;">📋 Dossier Complet</h5>
+                            <a href="https://drive.google.com/drive/folders/1S9dNIVvd9eoOHxg4HTaDKSv-E-Z5BF46?usp=sharing" target="_blank" class="btn" style="background: #6b7280;">
+                                📂 Voir tous les documents
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Instructions -->
+                <div style="background: #dbeafe; padding: 1rem; border-radius: 8px; margin-top: 2rem; text-align: center;">
+                    <p style="color: #1e40af; margin: 0;">
+                        <strong>ℹ️ Instructions :</strong> Les documents s'ouvriront dans Google Drive. 
+                        Pour les télécharger, cliquez sur "Télécharger" dans le menu de Google Drive.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="container">
+        <p>© 2025 Jean Desjardins - Portfolio BTS SIO</p>
+        <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #6b7280;">Contact: jean.desjardins@campus-la-chataigneraie.org</p>
+    </footer>
+
+    <!-- Modal pour les détails -->
+    <div class="modal" id="modal">
+        <div class="modal-content" id="modalContent">
+            <!-- Contenu généré dynamiquement -->
+        </div>
+    </div>
+
+    <script>
+        // Données de veille complètes
+        const veilleData = {
+            cybernews: [
+                { date: '2025-09-15', titre: 'Nouvelle réglementation européenne sur la cybersécurité', resume: 'L\'UE adopte de nouvelles mesures pour renforcer la sécurité des réseaux et systèmes d\'information.', url: 'https://www.cnil.fr/fr/reglementation-cybersecurite' },
+                { date: '2025-09-10', titre: 'Mise à jour des recommandations RGPD', resume: 'La CNIL publie de nouvelles directives pour la protection des données personnelles.', url: 'https://www.cnil.fr/fr/recommandations-rgpd' },
+                { date: '2025-08-20', titre: 'Évolution des pratiques de sécurité cloud', resume: 'Les entreprises adoptent de nouvelles stratégies pour sécuriser leurs données dans le cloud.', url: 'https://www.cnil.fr/fr/securite-cloud' },
+                { date: '2025-08-05', titre: 'Formation des DPO : nouvelles exigences', resume: 'Les formations des délégués à la protection des données sont renforcées.', url: 'https://www.cnil.fr/fr/formation-dpo' },
+                { date: '2025-07-25', titre: 'Cybersécurité : tendances 2025', resume: 'Analyse des principales menaces et solutions de sécurité pour l\'année 2025.', url: 'https://www.cnil.fr/fr/tendances-cybersecurite' },
+                { date: '2025-07-10', titre: 'Protection des données : nouveaux outils', resume: 'La CNIL met à disposition de nouveaux outils pour faciliter la conformité RGPD.', url: 'https://www.cnil.fr/fr/outils-conformite' },
+                { date: '2025-06-28', titre: 'Audit de sécurité : bonnes pratiques 2025', resume: 'Nouvelles méthodologies pour les audits de sécurité informatique.', url: 'https://www.cnil.fr/fr/audit-securite' },
+                { date: '2025-06-15', titre: 'Sensibilisation à la protection des données', resume: 'Campagnes de sensibilisation pour les employés sur la sécurité des données.', url: 'https://www.cnil.fr/fr/sensibilisation' },
+                { date: '2025-05-30', titre: 'Conformité RGPD dans le secteur santé', resume: 'Recommandations spécifiques pour le traitement des données médicales.', url: 'https://www.cnil.fr/fr/sante-rgpd' },
+                { date: '2025-05-18', titre: 'Sécurité des applications mobiles', resume: 'Nouvelles directives pour la protection des données sur applications mobiles.', url: 'https://www.cnil.fr/fr/applications-mobiles' },
+                { date: '2025-04-22', titre: 'Gestion des violations de données', resume: 'Procédures à suivre en cas de fuite de données personnelles.', url: 'https://www.cnil.fr/fr/violations-donnees' },
+                { date: '2025-04-10', titre: 'Privacy by Design : principes fondamentaux', resume: 'Intégration de la protection des données dès la conception des systèmes.', url: 'https://www.cnil.fr/fr/privacy-by-design' },
+                { date: '2025-03-25', titre: 'Impact de l\'IA sur la protection des données', resume: 'Enjeux éthiques et réglementaires de l\'intelligence artificielle.', url: 'https://www.cnil.fr/fr/ia-donnees' },
+                { date: '2025-03-12', titre: 'Certification des compétences RGPD', resume: 'Nouveaux programmes de certification pour les professionnels.', url: 'https://www.cnil.fr/fr/certification-rgpd' },
+                { date: '2025-02-28', titre: 'Sécurité des objets connectés', resume: 'Recommandations pour la protection des données des IoT.', url: 'https://www.cnil.fr/fr/objets-connectes' },
+                { date: '2025-02-15', titre: 'Gouvernance des données en entreprise', resume: 'Mise en place d\'une gouvernance efficace des données personnelles.', url: 'https://www.cnil.fr/fr/gouvernance-donnees' },
+                { date: '2025-01-30', titre: 'Droit à l\'oubli numérique', resume: 'Actualisation des procédures de suppression des données.', url: 'https://www.cnil.fr/fr/droit-oubli' },
+                { date: '2025-01-18', titre: 'Sécurité des transferts internationaux', resume: 'Nouvelles clauses contractuelles pour les transferts de données.', url: 'https://www.cnil.fr/fr/transferts-internationaux' },
+                { date: '2024-12-10', titre: 'Bilan annuel de la conformité RGPD', resume: 'Retour sur les principales évolutions réglementaires de l\'année.', url: 'https://www.cnil.fr/fr/bilan-annuel' },
+                { date: '2024-11-25', titre: 'Protection des données des mineurs', resume: 'Recommandations spécifiques pour la protection des enfants en ligne.', url: 'https://www.cnil.fr/fr/protection-mineurs' },
+                { date: '2024-11-08', titre: 'Sécurisation des bases de données', resume: 'Bonnes pratiques pour la protection des bases de données sensibles.', url: 'https://www.cnil.fr/fr/bases-donnees' },
+                { date: '2024-10-20', titre: 'Authentification multi-facteurs', resume: 'Importance de l\'AMF dans la protection des comptes utilisateurs.', url: 'https://www.cnil.fr/fr/authentification-multi-facteurs' },
+                { date: '2024-09-30', titre: 'Formation continue des RSSI', resume: 'Nouveaux programmes de formation pour les responsables sécurité.', url: 'https://www.cnil.fr/fr/formation-rssi' }
+            ],
+            cybermenaces: [
+                { date: '2025-09-18', titre: 'Nouvelle vague de ransomwares ciblant les PME', resume: 'Une campagne de ransomwares sophistiquée vise particulièrement les petites et moyennes entreprises.', url: 'https://cybersecurite.perfitcom.com/actualites-cybersecurite/une-nouvelle-vague-de-ransomwares-vise-les-entreprises-europeennes' },
+                { date: '2025-09-12', titre: 'Attaque par phishing via les réseaux sociaux', resume: 'Les cybercriminels utilisent de nouvelles techniques de phishing sur les plateformes sociales.', url: 'https://www.phishtank.com' },
+                { date: '2025-08-28', titre: 'Vulnérabilité critique dans les systèmes IoT', resume: 'Découverte d\'une faille de sécurité majeure affectant les appareils connectés.', url: 'https://www.cert.ssi.gouv.fr' },
+                { date: '2025-08-15', titre: 'Escroquerie au faux support technique', resume: 'Augmentation des arnaques par téléphone se faisant passer pour un support technique.', url: 'https://www.signal-spam.fr' },
+                { date: '2025-07-20', titre: 'Attaque DDoS massive contre des institutions financières', resume: 'Plusieurs banques subissent des attaques par déni de service coordonnées.', url: 'https://www.cloudflare.com/fr-fr/ddos' },
+                { date: '2025-07-08', titre: 'Fuites de données dans le secteur de la santé', resume: 'Des hôpitaux victimes de violations de données médicales sensibles.', url: 'https://www.has-sante.fr' },
+                { date: '2025-06-25', titre: 'Campagne de malware via emails professionnels', resume: 'Nouvelle technique d\'infection par pièces jointes corrompues.', url: 'https://www.cert.ssi.gouv.fr/alerte/CERTFR-2025-ALE-012/' },
+                { date: '2025-06-10', titre: 'Exploitation de failles zero-day dans Windows', resume: 'Des hackers exploitent des vulnérabilités non patchées dans le système d\'exploitation.', url: 'https://www.cve.mitre.org' },
+                { date: '2025-05-22', titre: 'Attaques par ingénierie sociale ciblant les RH', resume: 'Techniques de manipulation pour obtenir des informations sensibles.', url: 'https://www.cybermalveillance.gouv.fr' },
+                { date: '2025-05-08', titre: 'Botnet Mirai évolué menaçant les infrastructures', resume: 'Nouvelle version du botnet Mirai ciblant les équipements réseau.', url: 'https://www.us-cert.gov' },
+                { date: '2025-04-18', titre: 'Cryptojacking sur serveurs d\'entreprise', resume: 'Utilisation frauduleuse de ressources serveur pour miner des cryptomonnaies.', url: 'https://www.bleepingcomputer.com' },
+                { date: '2025-04-05', titre: 'Attaques supply chain dans le secteur logiciel', resume: 'Compromission de chaînes d\'approvisionnement en logiciels.', url: 'https://www.sans.org' },
+                { date: '2025-03-20', titre: 'Campagne de espionage économique', resume: 'Groupes APT ciblant des entreprises stratégiques françaises.', url: 'https://www.anssi.fr' },
+                { date: '2025-03-08', titre: 'Vulnérabilités dans les solutions VPN', resume: 'Multiples failles découvertes dans des solutions VPN populaires.', url: 'https://www.kb.cert.org/vuls' },
+                { date: '2025-02-25', titre: 'Attaques BEC ciblant les directions financières', resume: 'Escroqueries au président visant les services comptables.', url: 'https://www.fbi.gov/scams-and-safety/common-scams-and-crimes/business-email-compromise' },
+                { date: '2025-02-12', titre: 'Exploitation de failles dans les API REST', resume: 'Nouvelles techniques d\'attaque visant les interfaces de programmation.', url: 'https://www.owasp.org' },
+                { date: '2025-01-30', titre: 'Malware mobile ciblant les applications bancaires', resume: 'Nouveaux trojans mobiles visant les applications financières.', url: 'https://www.kaspersky.com' },
+                { date: '2025-01-15', titre: 'Attaques par déni de service applicatif', resume: 'Nouvelles méthodes pour saturer les applications web.', url: 'https://www.cloudflare.com/learning/ddos/what-is-a-ddos-attack/' },
+                { date: '2024-12-20', titre: 'Fuites de données via configurations cloud', resume: 'Mauvaise configuration des services cloud entraînant des expositions de données.', url: 'https://www.cisa.gov/cloud-security' },
+                { date: '2024-12-05', titre: 'Campagne de ransomware as a service', resume: 'Popularisation des rançongiciels en mode service.', url: 'https://www.europol.europa.eu' },
+                { date: '2024-11-18', titre: 'Attaques par injection SQL avancées', resume: 'Nouvelles techniques d\'injection contournant les protections traditionnelles.', url: 'https://www.owasp.org/www-community/attacks/SQL_Injection' },
+                { date: '2024-11-02', titre: 'Compromission de certificats numériques', resume: 'Attaques visant l\'infrastructure à clés publiques (PKI).', url: 'https://www.entrust.com/fr' },
+                { date: '2024-10-15', titre: 'Exploitation de vulnérabilités dans Docker', resume: 'Nouvelles failles dans les conteneurs Docker mal configurés.', url: 'https://www.docker.com/security/' },
+                { date: '2024-09-28', titre: 'Attaques par rebond via serveurs compromis', resume: 'Utilisation de serveurs légitimes pour amplifier les attaques.', url: 'https://www.us-cert.gov/ncas/alerts/aa24-000a' },
+                { date: '2024-09-10', titre: 'Campagne de hameçonnage ciblant les GAFAM', resume: 'Faux emails semblant provenir des géants technologiques.', url: 'https://www.antiphishing.org' },
+                { date: '2024-08-22', titre: 'Exploitation de failles dans les routeurs', resume: 'Vulnérabilités critiques dans les équipements réseau grand public.', url: 'https://www.kb.cert.org/vuls/byvendor?searchview&Query=FIELD+Reference=228519&SearchOrder=4' },
+                { date: '2024-08-08', titre: 'Attaques par défacement de sites web', resume: 'Compromission de sites pour afficher des messages politiques.', url: 'https://www.zone-h.org' },
+                { date: '2024-07-25', titre: 'Malware furtif dans les secteurs industriels', resume: 'Logiciels malveillants ciblant les systèmes de contrôle industriel.', url: 'https://www.ics-cert.org' },
+                { date: '2024-07-12', titre: 'Exploitation des vulnérabilités log4j', resume: 'Nouvelles variantes d\'attaque exploitant la faille log4j.', url: 'https://www.cisa.gov/known-exploited-vulnerabilities-catalog' },
+                { date: '2024-06-30', titre: 'Attaques par credential stuffing', resume: 'Utilisation massive de listes de mots de passe volés.', url: 'https://www.haveibeenpwned.com' },
+                { date: '2024-06-18', titre: 'Campagne de scareware via publicités', resume: 'Fausses alertes de virus pour vendre des logiciels inutiles.', url: 'https://www.malwarebytes.com/scareware' },
+                { date: '2024-06-05', titre: 'Vulnérabilités dans les protocoles Wi-Fi', resume: 'Nouvelles failles dans l\'implémentation des standards Wi-Fi.', url: 'https://www.wi-fi.org/security' },
+                { date: '2024-05-20', titre: 'Attaques par side-channel', resume: 'Exploitation des fuites d\'information physiques.', url: 'https://www.sidechannelattack.com' },
+                { date: '2024-05-08', titre: 'Compromission de services DNS', resume: 'Attaques visant l\'infrastructure de résolution de noms.', url: 'https://www.icann.org/security' },
+                { date: '2024-04-25', titre: 'Exploitation de failles dans les CMS', resume: 'Vulnérabilités dans les systèmes de gestion de contenu populaires.', url: 'https://www.cvedetails.com' },
+                { date: '2024-04-12', titre: 'Attaques par typosquatting', resume: 'Enregistrement de domaines similaires à des marques connues.', url: 'https://www.whois.com' },
+                { date: '2024-03-30', titre: 'Campagne de sextorsion par email', resume: 'Fausses menaces de diffusion de contenu compromettant.', url: 'https://www.cyber.gc.ca' },
+                { date: '2024-03-15', titre: 'Exploitation de vulnérabilités dans Java', resume: 'Nouvelles failles dans l\'environnement d\'exécution Java.', url: 'https://www.oracle.com/security-alerts/' },
+                { date: '2024-03-01', titre: 'Attaques par water holing', resume: 'Compromission de sites web fréquentés par les cibles.', url: 'https://www.mandiant.com/resources/blog' }
+            ]
+        };
+
+        // Trier les articles par date
+        veilleData.cybernews.sort((a, b) => new Date(b.date) - new Date(a.date));
+        veilleData.cybermenaces.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+        const monthsData = {
+            cybernews: [
+                { name: 'Septembre 2025', icon: '🍂', color: '#2563eb', articles: veilleData.cybernews.filter(a => a.date.startsWith('2025-09')) },
+                { name: 'Août 2025', icon: '☀️', color: '#2563eb', articles: veilleData.cybernews.filter(a => a.date.startsWith('2025-08')) },
+                { name: 'Juillet 2025', icon: '🌊', color: '#2563eb', articles: veilleData.cybernews.filter(a => a.date.startsWith('2025-07')) },
+                { name: 'Juin 2025', icon: '🌞', color: '#2563eb', articles: veilleData.cybernews.filter(a => a.date.startsWith('2025-06')) },
+                { name: 'Mai 2025', icon: '🌸', color: '#2563eb', articles: veilleData.cybernews.filter(a => a.date.startsWith('2025-05')) },
+                { name: 'Avril 2025', icon: '🌼', color: '#2563eb', articles: veilleData.cybernews.filter(a => a.date.startsWith('2025-04')) },
+                { name: 'Mars 2025', icon: '🌷', color: '#2563eb', articles: veilleData.cybernews.filter(a => a.date.startsWith('2025-03')) },
+                { name: 'Février 2025', icon: '❄️', color: '#2563eb', articles: veilleData.cybernews.filter(a => a.date.startsWith('2025-02')) },
+                { name: 'Janvier 2025', icon: '🎉', color: '#2563eb', articles: veilleData.cybernews.filter(a => a.date.startsWith('2025-01')) },
+                { name: 'Décembre 2024', icon: '🎄', color: '#2563eb', articles: veilleData.cybernews.filter(a => a.date.startsWith('2024-12')) },
+                { name: 'Novembre 2024', icon: '🍁', color: '#2563eb', articles: veilleData.cybernews.filter(a => a.date.startsWith('2024-11')) },
+                { name: 'Octobre 2024', icon: '🎃', color: '#2563eb', articles: veilleData.cybernews.filter(a => a.date.startsWith('2024-10')) },
+                { name: 'Septembre 2024', icon: '🍂', color: '#2563eb', articles: veilleData.cybernews.filter(a => a.date.startsWith('2024-09')) }
+            ],
+            cybermenaces: [
+                { name: 'Septembre 2025', icon: '🍂', color: '#dc2626', articles: veilleData.cybermenaces.filter(a => a.date.startsWith('2025-09')) },
+                { name: 'Août 2025', icon: '☀️', color: '#dc2626', articles: veilleData.cybermenaces.filter(a => a.date.startsWith('2025-08')) },
+                { name: 'Juillet 2025', icon: '🌊', color: '#dc2626', articles: veilleData.cybermenaces.filter(a => a.date.startsWith('2025-07')) },
+                { name: 'Juin 2025', icon: '🌞', color: '#dc2626', articles: veilleData.cybermenaces.filter(a => a.date.startsWith('2025-06')) },
+                { name: 'Mai 2025', icon: '🌸', color: '#dc2626', articles: veilleData.cybermenaces.filter(a => a.date.startsWith('2025-05')) },
+                { name: 'Avril 2025', icon: '🌼', color: '#dc2626', articles: veilleData.cybermenaces.filter(a => a.date.startsWith('2025-04')) },
+                { name: 'Mars 2025', icon: '🌷', color: '#dc2626', articles: veilleData.cybermenaces.filter(a => a.date.startsWith('2025-03')) }
+            ]
+        };
+
+        // Fonctions principales
+        function showSection(name, event) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(name).classList.add('active');
+            document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+            if (event) {
+                event.target.classList.add('active');
+            }
+            
+            document.getElementById('navLinks').classList.remove('active');
+            document.getElementById('hamburger').classList.remove('active');
+            
+            if (name === 'cv') {
+                setTimeout(animateSkillBars, 300);
+            }
+            
+            if (name === 'realisations') {
+                setTimeout(animateProjectCards, 300);
+            }
+        }
+
+        function showStage(type) {
+            document.querySelectorAll('.stage-content').forEach(c => c.style.display = 'none');
+            document.getElementById(type).style.display = 'block';
+            document.querySelectorAll('.stage-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        function showVeille(type) {
+            document.querySelectorAll('.veille-content').forEach(c => c.style.display = 'none');
+            document.getElementById(type).style.display = 'block';
+            document.querySelectorAll('.veille-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            const container = document.getElementById(type + '-months');
+            const baseColor = type === 'cybernews' ? '#2563eb' : '#dc2626';
+            
+            container.innerHTML = monthsData[type].map(m => {
+                const count = m.articles.length;
+                const countText = count > 0 ? `${count} article${count > 1 ? 's' : ''}` : 'Aucun article';
+                
+                return `<div class="month-card" style="border: 2px solid ${baseColor}; background: ${baseColor}15; color: ${baseColor};" onclick="showMonthDetails('${type}', '${m.name}')">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">${m.icon}</div>
+                    <h4 style="color: ${baseColor}; margin: 0;">${m.name}</h4>
+                    <p style="font-size: 0.8rem; color: ${baseColor}; margin: 0.5rem 0 0 0; opacity: 0.8;">${countText}</p>
+                </div>`;
+            }).join('');
+        }
+
+        function showMonthDetails(type, monthName) {
+            const monthData = monthsData[type].find(m => m.name === monthName);
+            if (!monthData || monthData.articles.length === 0) {
+                alert(`${monthName}: Aucun article pour ce mois`);
+                return;
+            }
+
+            const baseColor = type === 'cybernews' ? '#2563eb' : '#dc2626';
+            const articles = monthData.articles.map(article => `
+                <div style="background: white; padding: 1.5rem; border-radius: 10px; margin-bottom: 1rem; border-left: 4px solid ${baseColor};">
+                    <h4 style="color: ${baseColor}; margin-bottom: 0.5rem;">${article.titre}</h4>
+                    <p style="font-size: 0.9rem; margin-bottom: 1rem; line-height: 1.4;">${article.resume}</p>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-size: 0.8rem; color: #666;">${new Date(article.date).toLocaleDateString('fr-FR')}</span>
+                        <a href="${article.url}" target="_blank" style="background: ${baseColor}; color: white; padding: 0.5rem 1rem; border-radius: 5px; text-decoration: none; font-size: 0.8rem; transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='${darkenColor(baseColor, 20)}'" onmouseout="this.style.backgroundColor='${baseColor}'">Lire l'article</a>
+                    </div>
+                </div>
+            `).join('');
+
+            const modal = document.getElementById('modal');
+            const modalContent = document.getElementById('modalContent');
+            
+            modalContent.innerHTML = `
+                <div style="text-align: center; margin-bottom: 2rem; border-bottom: 2px solid ${baseColor}; padding-bottom: 1rem;">
+                    <h2 style="color: ${baseColor}; margin-bottom: 0.5rem;">${monthData.icon} ${monthName}</h2>
+                    <p style="color: #666;">${monthData.articles.length} article${monthData.articles.length > 1 ? 's' : ''} publié${monthData.articles.length > 1 ? 's' : ''}</p>
+                </div>
+                ${articles}
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button onclick="closeModal()" 
+                            style="background: ${baseColor}; color: white; border: none; padding: 0.8rem 2rem; border-radius: 25px; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='${darkenColor(baseColor, 20)}'" onmouseout="this.style.backgroundColor='${baseColor}'">
+                        Fermer
+                    </button>
+                </div>
+            `;
+            
+            modal.classList.add('active');
+        }
+
+        function darkenColor(color, percent) {
+            const num = parseInt(color.replace("#", ""), 16);
+            const amt = Math.round(2.55 * percent);
+            const R = (num >> 16) - amt;
+            const G = (num >> 8 & 0x00FF) - amt;
+            const B = (num & 0x0000FF) - amt;
+            return "#" + (0x1000000 + (R < 255 ? R < 1 ? 0 : R : 255) * 0x10000 +
+                (G < 255 ? G < 1 ? 0 : G : 255) * 0x100 +
+                (B < 255 ? B < 1 ? 0 : B : 255)).toString(16).slice(1);
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+        }
+
+        function showCertification(type) {
+            let content = '';
+            switch(type) {
+                case 'RGPD':
+                    content = `
+                        <h2 style="color: #2563eb; margin-bottom: 1rem;">📋 Certification RGPD - CNIL</h2>
+                        <p>Certification complète en protection des données personnelles avec la CNIL.</p>
+                        <div style="background: #ecfdf5; padding: 1rem; border-radius: 8px; margin-top: 1rem;">
+                            <h5 style="color: #059669;">✅ Certification Validée</h5>
+                            <p>Tous les modules validés avec succès - Score global : 100%</p>
+                        </div>
+                    `;
+                    break;
+                case 'Cisco':
+                    content = `
+                        <h2 style="color: #1f2937; margin-bottom: 1rem;">🌐 Formations Cisco</h2>
+                        <p>Formations réseau et cybersécurité Cisco suivies :</p>
+                        <div style="background: #f0f9ff; padding: 1rem; border-radius: 5px; margin-top: 1rem;">
+                            <p style="margin: 0.5rem 0;"><strong>Contenu :</strong></p>
+                            <ul style="padding-left: 1.5rem;">
+                                <li>Fondamentaux de la cybersécurité</li>
+                                <li>Menaces et vulnérabilités</li>
+                                <li>Protection des réseaux</li>
+                                <li>Bonnes pratiques de sécurité</li>
+                            </ul>
+                        </div>
+                    `;
+                    break;
+                case 'PIX':
+                    content = `
+                        <h2 style="color: #3b82f6; margin-bottom: 1rem;">🎯 Certification PIX</h2>
+                        <p>Score PIX: <strong>351 points</strong> sur 1024</p>
+                        <p>Certification des compétences numériques.</p>
+                    `;
+                    break;
+            }
+            
+            const modal = document.getElementById('modal');
+            const modalContent = document.getElementById('modalContent');
+            
+            modalContent.innerHTML = `
+                <div style="text-align: center;">
+                    ${content}
+                    <button onclick="closeModal()" style="background: #2563eb; color: white; border: none; padding: 0.8rem 2rem; border-radius: 25px; cursor: pointer; margin-top: 1.5rem;">
+                        Fermer
+                    </button>
+                </div>
+            `;
+            
+            modal.classList.add('active');
+        }
+
+        function showProjectDetails(project) {
+            let content = '';
+            switch(project) {
+                case 'mysav':
+                    content = `
+                        <h2 style="color: #2563eb; margin-bottom: 1rem;">🏢 Stage MySAV France - Déploiement Active Directory</h2>
+                        <p><strong>Période :</strong> 26 mai 2025 - 27 juin 2025 (5 semaines)</p>
+                        <h4 style="color: #2563eb; margin: 1.5rem 0 1rem 0;">🎯 Réalisations</h4>
+                        <ul style="padding-left: 1.5rem; margin-bottom: 1.5rem;">
+                            <li>Déploiement d'un Active Directory complet sous Windows Server 2025</li>
+                            <li>Automatisation des déploiements logiciels via GPO</li>
+                            <li>Mise en place d'un serveur d'impression centralisé</li>
+                            <li>Configuration d'un système de surveillance</li>
+                        </ul>
+                    `;
+                    break;
+                case 'cisco':
+                    content = `
+                        <h2 style="color: #2563eb; margin-bottom: 1rem;">🌐 Infrastructure Réseau Cisco</h2>
+                        <h4 style="color: #2563eb; margin: 1.5rem 0 1rem 0;">🛠️ Configurations</h4>
+                        <ul style="padding-left: 1.5rem;">
+                            <li>VLAN et Trunking</li>
+                            <li>Protocole VTP</li>
+                            <li>EtherChannel (LAG)</li>
+                            <li>Spanning-Tree Protocol</li>
+                        </ul>
+                    `;
+                    break;
+                case 'powershell':
+                    content = `
+                        <h2 style="color: #2563eb; margin-bottom: 1rem;">⚡ Automatisation PowerShell</h2>
+                        <h4 style="color: #2563eb; margin: 1.5rem 0 1rem 0;">📝 Scripts développés</h4>
+                        <ul style="padding-left: 1.5rem;">
+                            <li>Surveillance automatique des services</li>
+                            <li>Gestion des sauvegardes</li>
+                            <li>Rapports de performance</li>
+                            <li>Maintenance préventive</li>
+                        </ul>
+                    `;
+                    break;
+                case 'cisco-advanced':
+                    content = `
+                        <h2 style="color: #2563eb; margin-bottom: 1rem;">🔗 Cisco - VTP, LAG & STP Avancé</h2>
+                        <h4 style="color: #2563eb; margin: 1.5rem 0 1rem 0;">🎯 Protocoles maîtrisés</h4>
+                        <ul style="padding-left: 1.5rem;">
+                            <li>VTP (VLAN Trunking Protocol)</li>
+                            <li>LAG (Link Aggregation)</li>
+                            <li>STP (Spanning Tree Protocol)</li>
+                            <li>Sécurisation des équipements</li>
+                        </ul>
+                    `;
+                    break;
+            }
+            
+            const modal = document.getElementById('modal');
+            const modalContent = document.getElementById('modalContent');
+            
+            modalContent.innerHTML = `
+                <div>
+                    ${content}
+                    <div style="text-align: center; margin-top: 2rem;">
+                        <button onclick="closeModal()" style="background: #2563eb; color: white; border: none; padding: 0.8rem 2rem; border-radius: 25px; cursor: pointer;">
+                            Fermer
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            modal.classList.add('active');
+        }
+
+        function animateSkillBars() {
+            document.querySelectorAll('.progress-fill').forEach(bar => {
+                const width = bar.style.getPropertyValue('--target-width');
+                bar.style.width = width;
+            });
+        }
+
+        function animateProjectCards() {
+            const cards = document.querySelectorAll('.project-card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.2}s`;
+            });
+        }
+
+        // Menu hamburger
+        document.getElementById('hamburger').addEventListener('click', function() {
+            this.classList.toggle('active');
+            document.getElementById('navLinks').classList.toggle('active');
+        });
+
+        // Fermer le modal en cliquant à l'extérieur
+        document.getElementById('modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', () => {
+            showVeille('cybernews');
+            if (document.getElementById('cv').classList.contains('active')) {
+                setTimeout(animateSkillBars, 300);
+            }
+        });
+    </script>
+</body>
+</html>
